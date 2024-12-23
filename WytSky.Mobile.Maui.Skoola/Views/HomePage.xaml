@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="WytSky.Mobile.Maui.Skoola.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:WytSky.Mobile.Maui.Skoola.Views"
+    xmlns:behaviors="clr-namespace:WytSky.Mobile.Maui.Skoola.Behaviors"
+    xmlns:customControl="clr-namespace:WytSky.Mobile.Maui.Skoola.CustomControl.Borderless"
+    xmlns:customControls="clr-namespace:WytSky.Mobile.Maui.Skoola.CustomControl"
+    xmlns:resource="clr-namespace:WytSky.Mobile.Maui.Skoola.AppResources"
+    xmlns:templates="clr-namespace:WytSky.Mobile.Maui.Skoola.Template"
+    x:Name="root"
+    Title="{x:Static resource:SharedResources.Text_Home}"
+    IconImageSource="menu_home">
+    <ScrollView>
+        <Grid>
+            <VerticalStackLayout>
+                <Grid>
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="200"
+                        Source="background_header_image" />
+                    <Grid ColumnDefinitions="*,auto">
+                        <VerticalStackLayout Margin="20,40,20,0">
+                            <Image
+                                Aspect="AspectFit"
+                                HorizontalOptions="Start"
+                                Source="avatar"
+                                Style="{StaticResource ImageSize60}" />
+                            <Label
+                                Margin="0,5,0,0"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource White}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontFamily="ManropeBold"
+                                            FontSize="16"
+                                            Text="{x:Static resource:SharedResources.Text_Hi}" />
+                                        <Span Text=", " />
+                                        <Span
+                                            FontFamily="ManropeBold"
+                                            FontSize="16"
+                                            Text="{Binding UserName}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                Margin="0,5,0,0"
+                                Style="{StaticResource RegularLabelFont14}"
+                                Text="{x:Static resource:SharedResources.Text_WelcomeToSkoola}"
+                                TextColor="{StaticResource White}" />
+                        </VerticalStackLayout>
+                        <Image
+                            Grid.Column="1"
+                            Margin="20,0"
+                            HeightRequest="60"
+                            Source="white_logo"
+                            WidthRequest="60" />
+                    </Grid>
+                </Grid>
+                <Frame
+                    Margin="15,-20,15,0"
+                    Padding="0"
+                    CornerRadius="20">
+                    <Grid Margin="10,0" ColumnDefinitions="auto,*,auto">
+                        <Image Source="search" Style="{StaticResource ImageSize15}" />
+                        <customControl:BorderlessEntry
+                            Grid.Column="1"
+                            FontFamily="ManropeBold"
+                            FontSize="16"
+                            TextColor="{StaticResource Black}" />
+                        <Image
+                            Grid.Column="2"
+                            Source="filter"
+                            Style="{StaticResource ImageSize30}" />
+                    </Grid>
+                </Frame>
+                <CollectionView
+                    x:Name="parentCategories"
+                    Margin="15,10,15,0"
+                    ItemsSource="{Binding ParentCategories}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame
+                                Padding="0"
+                                BackgroundColor="{Binding BackgroundColor}"
+                                BorderColor="{StaticResource BorderColor}"
+                                CornerRadius="20">
+                                <Label
+                                    Margin="15,5"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource BoldLabelFont16}"
+                                    Text="{Binding Name}"
+                                    TextColor="{Binding TextColor}" />
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectParentCategoryCommand, Source={x:Reference parentCategories}}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <customControls:EmptyView />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+                <CollectionView
+                    x:Name="mainCategories"
+                    Margin="10,5"
+                    ItemsSource="{Binding MainCategories}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Margin="15,10">
+                                <Frame
+                                    Padding="0"
+                                    CornerRadius="80"
+                                    HeightRequest="80"
+                                    WidthRequest="80">
+                                    <Image Aspect="AspectFill" Source="{Binding CatgeoryImageUrl}" />
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectMainCategoryCommand, Source={x:Reference mainCategories}}" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Label
+                                    Margin="10,5"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource BoldLabelFont16}"
+                                    Text="{Binding Name}"
+                                    TextColor="{StaticResource Green}"
+                                    VerticalOptions="CenterAndExpand" />
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectMainCategoryCommand, Source={x:Reference mainCategories}}" CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <customControls:EmptyView />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+                <CollectionView
+                    x:Name="categories"
+                    Grid.Row="1"
+                    Margin="10,5"
+                    IsVisible="{Binding CategoriesVisiblity}"
+                    ItemsSource="{Binding Categories}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="5"
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="5" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Margin="15,10">
+                                <Frame
+                                    Padding="0"
+                                    CornerRadius="80"
+                                    HeightRequest="80"
+                                    WidthRequest="80">
+                                    <Image Aspect="AspectFill" Source="{Binding CatgeoryImageUrl}">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.SelectCategoryCommand, Source={x:Reference categories}}" CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Frame>
+                                <Label
+                                    Margin="10,5"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource BoldLabelFont16}"
+                                    Text="{Binding Name}"
+                                    TextColor="{StaticResource Green}"
+                                    VerticalOptions="CenterAndExpand" />
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectCategoryCommand, Source={x:Reference categories}}" CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <customControls:EmptyView />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+                <VerticalStackLayout Margin="20,15,20,0" IsVisible="false">
+
+                    <Grid Margin="0,10,0,0" ColumnDefinitions="*,auto">
+                        <Label
+                            FontSize="20"
+                            Style="{StaticResource BoldLabelFont16}"
+                            Text="{x:Static resource:SharedResources.Text_TopMentors}"
+                            TextColor="{StaticResource Black}" />
+                        <customControls:ViewAll Grid.Column="1" OnViewAllClicked="{Binding BindingContext.TopMentorsCommand, Source={x:Reference root}}" />
+                    </Grid>
+                    <CollectionView
+                        x:Name="mentors"
+                        Margin="0,10,0,0"
+                        ItemsSource="{Binding Mentors}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout>
+                                    <Image
+                                        Margin="0,10,0,0"
+                                        Source="{Binding Image}"
+                                        Style="{StaticResource ImageSize60}" />
+                                    <Label
+                                        Margin="0,10,0,0"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource BoldLabelFont14}"
+                                        Text="{Binding Name}"
+                                        TextColor="{StaticResource Black100}" />
+                                    <VerticalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectedMentorCommand, Source={x:Reference mentors}}" />
+                                    </VerticalStackLayout.GestureRecognizers>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Grid Margin="0,15,0,0" ColumnDefinitions="*,auto">
+                        <Label
+                            FontSize="20"
+                            Style="{StaticResource BoldLabelFont16}"
+                            Text="{x:Static resource:SharedResources.Text_TopRatedCourses}"
+                            TextColor="{StaticResource Black}" />
+                        <customControls:ViewAll Grid.Column="1" />
+                    </Grid>
+                    <CollectionView
+                        x:Name="topRatedCourses"
+                        Margin="0,10,0,0"
+                        HeightRequest="300"
+                        ItemsSource="{Binding TopRatedCourses}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    Padding="0"
+                                    BorderColor="{StaticResource Gray200}"
+                                    CornerRadius="10"
+                                    HeightRequest="300">
+                                    <VerticalStackLayout Margin="5">
+                                        <Grid Margin="5,5,5,0">
+                                            <Image
+                                                Aspect="AspectFill"
+                                                HeightRequest="150"
+                                                Source="test_image" />
+                                            <Grid
+                                                Margin="10,5"
+                                                ColumnDefinitions="auto,auto"
+                                                HeightRequest="35"
+                                                VerticalOptions="Start">
+                                                <Border
+                                                    BackgroundColor="{StaticResource White}"
+                                                    HorizontalOptions="Start"
+                                                    StrokeShape="RoundRectangle 5"
+                                                    StrokeThickness="1"
+                                                    WidthRequest="60">
+                                                    <Label
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Style="{StaticResource BoldLabelFont14}"
+                                                        Text="50 %"
+                                                        TextColor="{StaticResource PrimaryColor}" />
+                                                </Border>
+                                                <Border
+                                                    Grid.Column="1"
+                                                    BackgroundColor="{StaticResource White}"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    StrokeShape="RoundRectangle 5"
+                                                    StrokeThickness="1"
+                                                    WidthRequest="200">
+                                                    <Label
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Style="{StaticResource BoldLabelFont14}"
+                                                        Text="Software Development"
+                                                        TextColor="{StaticResource PrimaryColor}" />
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+
+                                        <Grid Margin="10,0" ColumnDefinitions="*,auto">
+                                            <Label
+                                                FontSize="20"
+                                                Style="{StaticResource BoldLabelFont18}"
+                                                Text="JavaScript"
+                                                TextColor="{StaticResource Blue}" />
+                                            <Image
+                                                Grid.Column="1"
+                                                Source="red_favourite"
+                                                Style="{StaticResource ImageSize25}" />
+                                        </Grid>
+
+                                        <Grid Margin="10,0" ColumnDefinitions="auto,*,auto,auto">
+                                            <customControls:SimpleRatingControl
+                                                Margin="0,10,0,0"
+                                                AccentColor="{StaticResource Orange}"
+                                                Amount="5"
+                                                CurrentValue="4"
+                                                StarSize="30" />
+                                            <Label
+                                                Grid.Column="1"
+                                                Margin="5,0"
+                                                Style="{StaticResource BoldLabelFont12}"
+                                                Text="4.2"
+                                                TextColor="{StaticResource Black}" />
+                                            <Label
+                                                Grid.Column="2"
+                                                Margin="5,0"
+                                                Style="{StaticResource BoldLabelFont14}"
+                                                Text="200$"
+                                                TextColor="{StaticResource Gray400}"
+                                                TextDecorations="Strikethrough" />
+                                            <Label
+                                                Grid.Column="3"
+                                                Margin="5,0"
+                                                Style="{StaticResource BoldLabelFont18}"
+                                                Text="100$"
+                                                TextColor="{StaticResource PrimaryColor}" />
+                                        </Grid>
+
+                                        <Button
+                                            Margin="10,5"
+                                            BorderColor="{StaticResource PrimaryColor}"
+                                            Command="{Binding BindingContext.EnrolCourseCommand, Source={x:Reference topRatedCourses}}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{StaticResource SecondaryButton}"
+                                            Text="{x:Static resource:SharedResources.Text_EnrollNow}" />
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectCourseCommand, Source={x:Reference topRatedCourses}}" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Grid Margin="0,15,0,0" ColumnDefinitions="*,auto">
+                        <Label
+                            FontSize="20"
+                            Style="{StaticResource BoldLabelFont16}"
+                            Text="{x:Static resource:SharedResources.Text_MostPopularCourses}"
+                            TextColor="{StaticResource Black}" />
+                        <customControls:ViewAll Grid.Column="1" OnViewAllClicked="{Binding BindingContext.OpenMostPopularCoursesCommand, Source={x:Reference root}}" />
+                    </Grid>
+                    <CollectionView
+                        x:Name="mainCategoriesList"
+                        Margin="0,10,0,0"
+                        HeightRequest="40"
+                        ItemsSource="{Binding Categories}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    BackgroundColor="{StaticResource PrimaryColor}"
+                                    HeightRequest="40"
+                                    StrokeThickness="1">
+                                    <Grid Margin="10,0" ColumnDefinitions="auto,auto">
+                                        <Image
+                                            HorizontalOptions="Start"
+                                            Source="test_image2"
+                                            Style="{StaticResource ImageSize20}" />
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="5,0"
+                                            Style="{StaticResource BoldLabelFont14}"
+                                            Text="{Binding Name}"
+                                            TextColor="{StaticResource White}">
+                                            <Label.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding IsSelected}"
+                                                    TargetType="Label"
+                                                    Value="false">
+                                                    <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Grid>
+                                    <Border.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsSelected}"
+                                            TargetType="Border"
+                                            Value="false">
+                                            <Setter Property="Stroke" Value="{StaticResource PrimaryColor}" />
+                                            <Setter Property="StrokeThickness" Value="1" />
+                                            <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectCategoryCommand, Source={x:Reference mainCategoriesList}}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <CollectionView
+                        x:Name="mostPopularCourses"
+                        Margin="0,5,0,0"
+                        ItemsSource="{Binding MostPopularCourses}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:CourseTemplate
+                                    CommandParameter="{Binding .}"
+                                    DataModel="{Binding .}"
+                                    SelectedCourseCommand="{Binding BindingContext.SelectCourseCommand, Source={x:Reference mostPopularCourses}}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            <ActivityIndicator IsRunning="{Binding IsRunning}" />
+        </Grid>
+    </ScrollView>
+
+</base:BaseContentPage>
